@@ -1,5 +1,6 @@
 // TODO: Include packages needed for this application
 const fs = require('fs');
+const path = require('path');
 const inquirer = require('inquirer');
 const generateMarkdown = require('./utils/generateMarkdown');
 
@@ -56,7 +57,7 @@ const promptUser = () => {return inquirer.prompt ([
 
 // TODO: Create a function to write README file
 function writeToFile(fileName, data) {
-  return fs.writeFile('README.md',generateMarkdown(), (err) =>
+  return fs.writeFile(path.join(process.cwd(), fileName), data, (err) =>
   err ? console.error(err) : console.log('Success!')
 );
 }
@@ -65,7 +66,7 @@ function writeToFile(fileName, data) {
 function init() {
   promptUser()
   .then((responses)=>{
-    writeToFile("README.md", generateMarkdown(title, description, installation, usage, contributors, guidelines, test, license, email));
+  writeToFile("README.md", generateMarkdown({ ...responses }));
   })
 }
 
